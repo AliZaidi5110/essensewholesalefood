@@ -22,6 +22,10 @@ $('#enquiry-notes').value = typeof saved.notes === 'string' ? saved.notes : '';
 function persist() {
   try { localStorage.setItem(storageKey, JSON.stringify({items:[...enquiry],notes:$('#enquiry-notes').value})); } catch {}
   $('#count').textContent = enquiry.size;
+  updateWhatsAppDraft();
+}
+function updateWhatsAppDraft() {
+  $('#whatsapp-enquiry').href = 'https://wa.me/447402342704?text=' + encodeURIComponent(enquiryText());
 }
 function toast(message) {
   clearTimeout(toastTimer);
@@ -65,7 +69,7 @@ function openDialog(dialog, trigger) {
 }
 function enquiryText() {
   const items = products.filter(p => enquiry.has(p.id));
-  return `ESSENCE WHOLESALE FOODS — MY ENQUIRY LIST\n\n${items.length ? items.map(p => `• ${p.name}`).join('\n') : 'No product categories selected.'}\n\nAdditional requirements:\n${$('#enquiry-notes').value.trim() || 'None added.'}\n\nThis is a prepared list, not a placed order or submitted enquiry. Please discuss availability, quantities and prices with the team.\n\nVisit: Unit 28, Enterprise Park Industrial Estate, Woodbourn Road, Sheffield S9 3JL, United Kingdom`;
+  return `ESSENCE WHOLESALE FOODS — MY ENQUIRY LIST\n\n${items.length ? items.map(p => `• ${p.name}`).join('\n') : 'No product categories selected.'}\n\nAdditional requirements:\n${$('#enquiry-notes').value.trim() || 'None added.'}\n\nThis is a prepared list, not a placed order or submitted enquiry. Please discuss availability, quantities and prices with the team.\nCall or WhatsApp: +44 7402 342704\n\nVisit: Unit 28, Enterprise Park Industrial Estate, Woodbourn Road, Sheffield S9 3JL, United Kingdom`;
 }
 document.addEventListener('click', event => {
   const add = event.target.closest('[data-add]');
